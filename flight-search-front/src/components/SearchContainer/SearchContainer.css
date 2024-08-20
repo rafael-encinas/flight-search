@@ -1,0 +1,33 @@
+
+.searchContainer{
+    border: 1px solid var(--white-color);
+    position: relative;
+    padding: 50px 50px;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: auto 250px;
+    gap: 10px;
+
+}
+
+h1{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: -150px;
+  }
+
+label{
+    text-align: end;
+}
+
+button{
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+
+#stops{
+    justify-self: start;
+}
