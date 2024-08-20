@@ -38,6 +38,7 @@ export default function SearchContainer(){
                 <option value="USD">USD</option>
                 <option value="MXN">MXN</option>
                 <option value="EUR">EUR</option>
+                <option value="JPY">JPY</option>
             </select>
             
             <label htmlFor="stops">Non-stop</label>
