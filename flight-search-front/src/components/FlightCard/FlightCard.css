@@ -1,0 +1,75 @@
+.flightCard{
+    box-sizing: border-box;
+    border: 1px solid var(--white-color);
+    margin-bottom: 25px;
+
+    display: grid;
+    grid-template-columns:  2fr 1fr;
+    grid-template-rows:     auto;
+
+    &>*{
+        box-sizing: border-box;
+        padding: 5px;
+    }
+}
+
+.segmentContainer{
+
+    border: 1px solid var(--white-color);
+
+    display: grid;
+    grid-template-columns:  1fr 1fr;
+    grid-template-rows:     1fr 2fr 1fr;
+
+    padding: 5px;
+}
+.allSegments{
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    padding: 0;
+}
+
+.pricesContainer{
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+    border: 1px solid var(--white-color);
+    text-align: end;
+    align-self: center;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+
+.departureArrivalTimes{
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    /* border: 2px solid red; */
+    text-align: start;
+}
+
+.departureArrivalAirports{
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+    /* border: 2px solid blue; */
+    text-align: start;
+}
+
+.flightTime{
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
+    /* border: 2px solid yellow; */
+    text-align: center;
+}
+
+.airlineInfo{
+    grid-row: 3 / 4;
+    grid-column: 1 / 2;
+    /* border: 2px solid green; */
+    text-align: start;
+}
+
+

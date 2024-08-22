@@ -1,0 +1,14 @@
+ .resultsContainer{
+    width: 1100px;
+    border: 1px solid var(--white-color);
+    box-sizing: border-box;
+    padding: 25px;
+    margin: 0 auto;
+ }
+
+ .buttonsContainer{
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   margin-bottom: 25px;
+ }

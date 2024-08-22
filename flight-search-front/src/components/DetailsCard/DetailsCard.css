@@ -1,0 +1,25 @@
+.detailsCard{
+    border: 1px solid var(--white-color);
+    margin-bottom: 25px;
+}
+
+.detailsCard{
+    display: flex;
+    flex-direction: row;
+}
+.segmentDetails{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    text-align: start;
+    box-sizing: border-box;
+    padding: 25px;
+}
+
+.fareDetails{
+    width: fit-content;
+    border: 1px solid var(--white-color);
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 10px;
+}
