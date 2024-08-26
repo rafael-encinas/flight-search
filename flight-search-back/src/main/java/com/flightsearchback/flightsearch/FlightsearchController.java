@@ -1,4 +1,6 @@
 package com.flightsearchback.flightsearch;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.flightsearchback.flightsearch.FlightsearchService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -65,10 +69,20 @@ public class FlightsearchController {
     }
 
     @GetMapping("/aiports")
-    public Object getMatchingAriports(@RequestParam String keyword) {
+    public Object getMatchingAriports(@RequestParam String keyword) throws JsonMappingException, JsonProcessingException {
         //
 
+        //flightsearchService.findAirportsByKeyword(keyword);
         return flightsearchService.findAirportsByKeyword(keyword);
+    }
+
+    @GetMapping("/aiportsTest")
+    public List<Airport> testAirportsRequest(@RequestParam String keyword) throws JsonMappingException, JsonProcessingException {
+        //
+
+        return flightsearchService.airportsTest(keyword);
+        
+       //return flightsearchService.airportsTest(keyword);
     }
     
 

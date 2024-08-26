@@ -1,5 +1,8 @@
 package com.flightsearchback.flightsearch;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Airport {
     private String type;
     private String name;

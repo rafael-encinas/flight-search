@@ -9,10 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
 import java.util.*;
 import java.util.stream.*;
 
@@ -67,7 +70,7 @@ public class FlightsearchService {
         return response.getBody();
     }
 
-    public List<Airport> findAirportsByKeyword(String keyword){
+    public Object findAirportsByKeyword(String keyword) throws JsonMappingException, JsonProcessingException{
 
         String url = apiUrl + "/reference-data/locations?subType=AIRPORT&keyword="+keyword;
         RestTemplate restTemplate = new RestTemplate();
@@ -78,16 +81,38 @@ public class FlightsearchService {
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<Object> response = restTemplate.exchange(url, HttpMethod.GET, entity, Object.class);
 
-
-        Object[] foundAirports = new Object[]{response.getBody()};
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<Airport> airports =  Arrays.stream(foundAirports).map(o->objectMapper.convertValue(o, DataResponse.class))
-            .map(DataResponse::getData)
-            .collect(Collectors.toList()).get(0);
+        return response.getBody();
         
+    }
 
-        return airports;
+    public List<Airport> airportsTest(String keyword) throws JsonMappingException, JsonProcessingException{
+
+        List<Map> list = null;
+        List<Airport> listAirports = new ArrayList<Airport>();
+ 
+        String url = apiUrl + "/reference-data/locations?subType=AIRPORT&keyword="+keyword;
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(access_token);
+
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+    
+        list = (List<Map>) response.getBody().get("data");
+
+        for (Map item : list) { // we iterate for each one of the items of the list transforming it
+            AirportAddress address = new AirportAddress();
+            Airport airport = new Airport();
+            airport.setType(item.get("type").toString());
+            airport.setName(item.get("name").toString());
+            airport.setIataCode(item.get("iataCode").toString());
+            airport.setAddress(address);
+
+            listAirports.add(airport);
+        }
+
+        return listAirports;
         
     }
     

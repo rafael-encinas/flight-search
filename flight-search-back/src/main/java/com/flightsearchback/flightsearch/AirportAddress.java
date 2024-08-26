@@ -1,5 +1,8 @@
 package com.flightsearchback.flightsearch;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AirportAddress {
     String cityName;
     String cityCode;
