@@ -1,27 +1,4 @@
-import { useState } from 'react'
-import './App.css'
-
-import { SearchContainer } from './components/SearchContainer/SearchContainer'
-import { Results } from './components/Results/Results'
-import { FlightDetails } from './components/FlightDetails/FlightDetails'
-
-function App() {
-  const [count, setCount] = useState(0)
-  const [shownUi, setShownUi] = useState(0);
-
-  function showSearchContainer(){
-    setShownUi(0);
-  }
-
-  function showResults(){
-    setShownUi(1);
-  }
-
-  function showFlightDetails(){
-    setShownUi(2);
-  }
-
-  let response = {
+{
     "meta": {
       "count": 2,
       "links": {
@@ -570,30 +547,5 @@ function App() {
         "ID": "BATIK AIR INDONESIA"
       }
     }
-  };
-
-  console.log(response);
-/* 
-  fetch('./mockResponse.json')
-    .then((response)=>response.json())
-    .then((data) => {
-      response=data;
-      console.log(response)
-    }) */
-
-  return (
-    <>
-          <button onClick={showSearchContainer}>Show SearchContainer</button>
-          <button onClick={showResults}>Show Results</button>
-          <button onClick={showFlightDetails}>Show FlightDetails</button>
-
-          { shownUi == 0? <SearchContainer /> :
-            shownUi == 1? <Results data={response} /> : <FlightDetails data={response.data[0]} />}
-          
-          
-
-    </>
-  )
-}
-
-export default App
+  }
+  

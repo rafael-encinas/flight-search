@@ -1,7 +1,7 @@
 import './FlightCard.css'
-
+import dayjs from 'dayjs'
 type FlightCardProps = {
-    segments: any
+    data?: any
 }
 // Crear un tipo segmento con todas las propiedades y sus tipos de variables 
 // segment?: signifca que no es obligatoria
@@ -11,19 +11,47 @@ type FlightCardProps = {
 
 //Mini componente, sin exportar, solo uso interno
 
-type SegmentProps = {
-    segment?: any
-    key?: any
+type ItineraryProps = {
+    flight?: any
 }
 
-const Segment = (props:SegmentProps) => {
+const Itinerary = (props: ItineraryProps) => {
+
+    let howManySegments = props.flight.segments.length;
+    let departureAriportIata = props.flight.segments[0].departure.iataCode;
+    let arrivalAirportIata = props.flight.segments[howManySegments-1].arrival.iataCode;
+    let carrierCode = props.flight.segments[0].carrierCode;
+    let stops = howManySegments - 1;
+    let stopsText= "";
+    let layoverText = "";
+    let layoverTime = 0;
+    
+    if(stops >= 1){
+        stopsText = `${stops} stop`;
+        if(stops>1) stopsText = stopsText+"s";
+
+       
+        let firstArrivalDate = dayjs(props.flight.segments[0].arrival.at);
+        let secondDepartureDate = dayjs(props.flight.segments[1].departure.at)
+        layoverTime = secondDepartureDate.diff(firstArrivalDate, 'minute')
+        console.log(layoverTime);
+        let layoverHours = Math.floor(layoverTime/60);
+        let layoverMinutes = layoverTime - (layoverHours*60)
+
+        layoverText = `${layoverHours}h ${layoverMinutes}m in Los Angeles (${props.flight.segments[0].arrival.iataCode})`;
+    }
+
+
 
     return(
         <div className='segmentContainer'>
-            <div className='departureArrivalTimes'>{props.segment.departure.at} - {props.segment.arrival.at}</div>
-            <div className='departureArrivalAirports'>Departure Airport ({props.segment.departure.iataCode}) - Arrival Airport ({props.segment.arrival.iataCode})</div>
-            <div className='flightTime'>5h 57m (Nonstop)</div>
-            <div className='airlineInfo'>Carrier ({ props.segment.carrierCode })</div>
+            <div className='departureArrivalTimes'>{props.flight.segments[0].departure.at} - {props.flight.segments[howManySegments-1].arrival.at}</div>
+            <div className='departureArrivalAirports'>San Fracisco ({departureAriportIata}) - New York ({arrivalAirportIata})</div>
+            <div className='flightTime'>
+                <div>{props.flight.duration} {stops>0?`(${stopsText})`:""}</div>
+                <div>{layoverText}</div>
+            </div>
+            <div className='airlineInfo'>Carrier: Delta ({carrierCode})</div>
         </div>
     )
 }
@@ -31,14 +59,14 @@ const Segment = (props:SegmentProps) => {
 
 export const FlightCard = (props: FlightCardProps) =>{
 
-   console.log(props.segments)
+   console.log(props.data)
 
-    let mappedSegments = props.segments.map((element:object) => <Segment segment={element} key={element.id} />)
+    let mappedItineraries = props.data.itineraries.map((element:object, index: any) => <Itinerary flight={element} key={props.data.id + index} />)
 
     return(
         <div className='flightCard'>
             <div className='allSegments'>
-                { mappedSegments }
+                { mappedItineraries }
             </div>
 
           <div className='pricesContainer'>

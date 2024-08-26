@@ -1,60 +1,15 @@
 import './Results.css'
 
-import { FlightCard } from '../FlightCard/FlightCard'
+import { FlightCard } from '../FlightCard/FlightCard';
 
-export const Results = ()=>{
+type ResultsProps = {
+  data: any;
+}
 
-    let segments1 = [
-        {
-          "departure": {
-            "iataCode": "SYD",
-            "terminal": "1",
-            "at": "2021-11-01T11:35:00"
-          },
-          "arrival": {
-            "iataCode": "MNL",
-            "terminal": "2",
-            "at": "2021-11-01T16:50:00"
-          },
-          "carrierCode": "PR",
-          "number": "212",
-          "aircraft": {
-            "code": "333"
-          },
-          "operating": {
-            "carrierCode": "PR"
-          },
-          "duration": "PT8H15M",
-          "id": "1",
-          "numberOfStops": 0,
-          "blacklistedInEU": false
-        },
-        {
-          "departure": {
-            "iataCode": "MNL",
-            "terminal": "1",
-            "at": "2021-11-01T19:20:00"
-          },
-          "arrival": {
-            "iataCode": "BKK",
-            "at": "2021-11-01T21:50:00"
-          },
-          "carrierCode": "PR",
-          "number": "732",
-          "aircraft": {
-            "code": "320"
-          },
-          "operating": {
-            "carrierCode": "PR"
-          },
-          "duration": "PT3H30M",
-          "id": "2",
-          "numberOfStops": 0,
-          "blacklistedInEU": false
-        }
-      ];
+export const Results = (props: ResultsProps)=>{
 
-    //If one flight has multiple segments, create new component using FlightCard 
+
+    //data.map() to show all flight options
     return (
         <div className='resultsContainer'>
             <div className='buttonsContainer'>
@@ -64,7 +19,9 @@ export const Results = ()=>{
                     <button>Sort by duration</button>
                 </div>
             </div>
-            <FlightCard segments={segments1} />
+
+            {/* <FlightCard segments={segments1} /> */}
+            {props.data.data.map((element:any) => <FlightCard data={element} key={element.id} />)}
         </div>
     )
 }
