@@ -3,20 +3,36 @@ import { useState } from 'react';
 import { AirportInput } from '../AirportInput/AirportInput';
 import dayjs from 'dayjs';
 
-export const  SearchContainer = ()=>{
+type SearchContainerProps = {
+    setOriginLocationCode: any,
+}
+
+export const  SearchContainer = (props: SearchContainerProps)=>{
     const currenDate = dayjs();
     const formattedDate = currenDate.format('YYYY-MM-DD');
 
-    const [returnDateFlag, setReturnDateFlag] = useState(false);
+ 
     const [minDate, setMinDate] = useState(formattedDate);
     const [minReturnDate, setMinReturnDate] = useState(formattedDate);
 
 
-    
 
     function handleSubmit(event: any){
         event.preventDefault();
+        console.log("Searching for: ");
+        let originLocationCode = event.target.elements.DepartureAirport.value;
+        props.setOriginLocationCode(originLocationCode);
+        let destinationLocationCode = event.target.elements.ArrivalAirport.value;
+        let departureDate = event.target.elements.departureDate.value;
+        let returnDate = event.target.elements.returnDate.value;
+        let adults = event.target.elements.adults.value;
+        let currencyCode = event.target.elements.currency.value;
+        let nonStop = event.target.elements.stops.checked;
         
+        console.log("originLocation: " + originLocationCode);
+        console.log("destinationLocation: " + destinationLocationCode);
+        console.log("nonStop: " + nonStop);
+
     }
 
     // TODO: Set date inputs 'min' to today
@@ -29,10 +45,10 @@ export const  SearchContainer = ()=>{
 
     }
     return(
-        <form className='searchContainer' onSubmit={handleSubmit}>
+        <form className='searchContainer' onSubmit={(e)=>handleSubmit(e)}>
             <h1>Flight search</h1>
-            <AirportInput type="Departure" />
-            <AirportInput type="Arrival" />
+            <AirportInput type="Departure" key={1} />
+            <AirportInput type="Arrival" key={2}/>
 
             <label htmlFor="departureDate">Departure Date: </label>
             <input type="date"

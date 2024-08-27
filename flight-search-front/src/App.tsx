@@ -8,6 +8,11 @@ import { FlightDetails } from './components/FlightDetails/FlightDetails'
 function App() {
   const [count, setCount] = useState(0)
   const [shownUi, setShownUi] = useState(0);
+  const [originLocationCode, setOriginLocationCode] = useState("");
+  const [destinationLocationCode, setDestinationLocationCode] = useState("");
+  const [departureDate, setDepartureDate] = useState("");
+  const [adults, setAdults] = useState(1);
+  const [nonStop , setNonStop] = useState(false);
 
   function showSearchContainer(){
     setShownUi(0);
@@ -572,14 +577,10 @@ function App() {
     }
   };
 
-  console.log(response);
-/* 
-  fetch('./mockResponse.json')
-    .then((response)=>response.json())
-    .then((data) => {
-      response=data;
-      console.log(response)
-    }) */
+  
+
+
+
 
   return (
     <>
@@ -587,10 +588,10 @@ function App() {
           <button onClick={showResults}>Show Results</button>
           <button onClick={showFlightDetails}>Show FlightDetails</button>
 
-          { shownUi == 0? <SearchContainer /> :
+          { shownUi == 0? <SearchContainer setOriginLocationCode={setOriginLocationCode} /> :
             shownUi == 1? <Results data={response} /> : <FlightDetails data={response.data[0]} />}
           
-          
+          {originLocationCode.length>0?`OriginLocationCode set: ${originLocationCode}`: `OriginLocationCode not yet set`}
 
     </>
   )

@@ -1,10 +1,12 @@
 import './Option.css'
 type OptionProps = {
-    airport: string
+    airport?: string,
+    iataCode?: string,
+    cityName?: string
 }
 
 export const Option = (props: OptionProps) =>{
     return(
-        <option value={props.airport}></option>
+        <option value={props.iataCode}>{props.iataCode + " - " + props.cityName}</option>
     )
 }
