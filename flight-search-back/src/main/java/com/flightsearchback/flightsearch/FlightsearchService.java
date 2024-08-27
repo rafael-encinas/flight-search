@@ -1,5 +1,6 @@
 package com.flightsearchback.flightsearch;
 
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +21,7 @@ import java.util.*;
 import java.util.stream.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter; 
 
 @Service
 public class FlightsearchService {
@@ -36,7 +38,7 @@ public class FlightsearchService {
     String apiUrl;
 
     public Tokenresponse authenticate(){
-        String url = apiUrl + "/security/oauth2/token";
+        String url = apiUrl + "/v1/security/oauth2/token";
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -70,7 +72,7 @@ public class FlightsearchService {
         return response.getBody();
     }
 
-    public Object findAirportsByKeyword(String keyword) throws JsonMappingException, JsonProcessingException{
+    public Object findAirportsByKeywordDeprecated(String keyword) throws JsonMappingException, JsonProcessingException{
 
         String url = apiUrl + "/reference-data/locations?subType=AIRPORT&keyword="+keyword;
         RestTemplate restTemplate = new RestTemplate();
@@ -85,16 +87,18 @@ public class FlightsearchService {
         
     }
 
-    public List<Airport> airportsTest(String keyword) throws JsonMappingException, JsonProcessingException{
+    public List<Airport> findAirportsByKeyword(String keyword) throws JsonMappingException, JsonProcessingException{
 
         List<Map> list = null;
         List<Airport> listAirports = new ArrayList<Airport>();
  
-        String url = apiUrl + "/reference-data/locations?subType=AIRPORT&keyword="+keyword;
+        String url = apiUrl + "/v1/reference-data/locations?subType=AIRPORT&keyword="+keyword;
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(access_token);
 
+        System.out.println("Request url:");
+        System.out.println(url);
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
@@ -102,8 +106,16 @@ public class FlightsearchService {
         list = (List<Map>) response.getBody().get("data");
 
         for (Map item : list) { // we iterate for each one of the items of the list transforming it
-            AirportAddress address = new AirportAddress();
+            System.out.println(item.get("address"));
+
+            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+            String json = ow.writeValueAsString(item.get("address"));
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            AirportAddress address = objectMapper.readValue(json, AirportAddress.class);
+            
             Airport airport = new Airport();
+
             airport.setType(item.get("type").toString());
             airport.setName(item.get("name").toString());
             airport.setIataCode(item.get("iataCode").toString());
@@ -113,6 +125,60 @@ public class FlightsearchService {
         }
 
         return listAirports;
+        
+    }
+
+    public List<Map> findFlights(Map<String,String> allParams) throws JsonMappingException, JsonProcessingException{
+
+        List<Map> list = null;
+        List<Airport> listAirports = new ArrayList<Airport>();
+ 
+        String url = apiUrl + "/v2/shopping/flight-offers?originLocationCode="+ allParams.get("originLocationCode")
+                            +"&destinationLocationCode="+ allParams.get("destinationLocationCode")
+                            +"&departureDate="+ allParams.get("departureDate")
+                            +"&adults="+ allParams.get("adults")
+                            +"&nonStop=" + allParams.get("nonStop")
+                            +"&max=25";
+        if(allParams.containsKey("returnDate")){
+            url = url + "&returnDate=" + allParams.get("returnDate");
+        }
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(access_token);
+
+        System.out.println("Request url:");
+        System.out.println(url);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+    
+        list = (List<Map>) response.getBody().get("data");
+
+        for (Map item : list) { // we iterate for each one of the items of the list transforming it
+            /*
+
+            System.out.println(item.get("address"));
+
+            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+            String json = ow.writeValueAsString(item.get("address"));
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            AirportAddress address = objectMapper.readValue(json, AirportAddress.class);
+            
+            Airport airport = new Airport();
+
+            airport.setType(item.get("type").toString());
+            airport.setName(item.get("name").toString());
+            airport.setIataCode(item.get("iataCode").toString());
+            airport.setAddress(address);
+
+            listAirports.add(airport);
+            */
+            System.out.println(item);
+            System.out.println("////////////////");
+        }
+
+        return list;
         
     }
     

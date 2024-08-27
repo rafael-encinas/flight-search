@@ -9,6 +9,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api")
 public class FlightsearchController {
 
@@ -68,19 +70,28 @@ public class FlightsearchController {
        return hilloResponse;
     }
 
-    @GetMapping("/aiports")
-    public Object getMatchingAriports(@RequestParam String keyword) throws JsonMappingException, JsonProcessingException {
+    @GetMapping("/aiportsDepreacted")
+    public Object getMatchingAriportsDeprecated(@RequestParam String keyword) throws JsonMappingException, JsonProcessingException {
         //
 
         //flightsearchService.findAirportsByKeyword(keyword);
-        return flightsearchService.findAirportsByKeyword(keyword);
+        return flightsearchService.findAirportsByKeywordDeprecated(keyword);
     }
 
-    @GetMapping("/aiportsTest")
-    public List<Airport> testAirportsRequest(@RequestParam String keyword) throws JsonMappingException, JsonProcessingException {
+    @GetMapping("/aiports")
+    public List<Airport> getMatchingAriports(@RequestParam String keyword) throws JsonMappingException, JsonProcessingException {
         //
 
-        return flightsearchService.airportsTest(keyword);
+        return flightsearchService.findAirportsByKeyword(keyword);
+        
+       //return flightsearchService.airportsTest(keyword);
+    }
+
+    @GetMapping("/flights")
+    public List<Map> getFlights(@RequestParam Map<String,String> allParams) throws JsonMappingException, JsonProcessingException {
+        //
+
+        return flightsearchService.findFlights(allParams);
         
        //return flightsearchService.airportsTest(keyword);
     }
