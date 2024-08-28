@@ -57,26 +57,11 @@ public class FlightsearchController {
     }
 
     @GetMapping("/access")
-    private Tokenresponse getToken(){
-        Tokenresponse response = flightsearchService.authenticate();
-        return response;
+    private void getToken(){
+        flightsearchService.authenticate();
+        //return response;
     }
 
-    @GetMapping("/hillo")
-    private Object getHillo(){
-        //Set as .env variable:
-        // url, client_id, client_secret
-       Object hilloResponse = flightsearchService.findHillo();
-       return hilloResponse;
-    }
-
-    @GetMapping("/aiportsDepreacted")
-    public Object getMatchingAriportsDeprecated(@RequestParam String keyword) throws JsonMappingException, JsonProcessingException {
-        //
-
-        //flightsearchService.findAirportsByKeyword(keyword);
-        return flightsearchService.findAirportsByKeywordDeprecated(keyword);
-    }
 
     @GetMapping("/aiports")
     public List<Airport> getMatchingAriports(@RequestParam String keyword) throws JsonMappingException, JsonProcessingException {
@@ -88,7 +73,7 @@ public class FlightsearchController {
     }
 
     @GetMapping("/flights")
-    public List<Map> getFlights(@RequestParam Map<String,String> allParams) throws JsonMappingException, JsonProcessingException {
+    public List<TripResult> getFlights(@RequestParam Map<String,String> allParams) throws JsonMappingException, JsonProcessingException {
         //
 
         return flightsearchService.findFlights(allParams);
