@@ -4,6 +4,7 @@ import './App.css'
 import { SearchContainer } from './components/SearchContainer/SearchContainer'
 import { Results } from './components/Results/Results'
 import { FlightDetails } from './components/FlightDetails/FlightDetails'
+import { useFlights } from './hooks/useFlights.tsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -13,6 +14,8 @@ function App() {
   const [departureDate, setDepartureDate] = useState("");
   const [adults, setAdults] = useState(1);
   const [nonStop , setNonStop] = useState(false);
+
+  const { onGetResultFlights }  = useFlights();
 
   function showSearchContainer(){
     setShownUi(0);
@@ -577,7 +580,7 @@ function App() {
     }
   };
 
-  
+
 
 
 
@@ -588,7 +591,7 @@ function App() {
           <button onClick={showResults}>Show Results</button>
           <button onClick={showFlightDetails}>Show FlightDetails</button>
 
-          { shownUi == 0? <SearchContainer setOriginLocationCode={setOriginLocationCode} /> :
+          { shownUi == 0? <SearchContainer setOriginLocationCode={setOriginLocationCode} onGetResultFlights={onGetResultFlights} /> :
             shownUi == 1? <Results data={response} /> : <FlightDetails data={response.data[0]} />}
           
           {originLocationCode.length>0?`OriginLocationCode set: ${originLocationCode}`: `OriginLocationCode not yet set`}

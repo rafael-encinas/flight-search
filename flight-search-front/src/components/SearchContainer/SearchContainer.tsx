@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 
 type SearchContainerProps = {
     setOriginLocationCode: any,
+    onGetResultFlights: any
 }
 
 export const  SearchContainer = (props: SearchContainerProps)=>{
@@ -32,6 +33,7 @@ export const  SearchContainer = (props: SearchContainerProps)=>{
         console.log("originLocation: " + originLocationCode);
         console.log("destinationLocation: " + destinationLocationCode);
         console.log("nonStop: " + nonStop);
+        props.onGetResultFlights(originLocationCode, destinationLocationCode, departureDate, returnDate, adults, currencyCode, nonStop);
 
     }
 
