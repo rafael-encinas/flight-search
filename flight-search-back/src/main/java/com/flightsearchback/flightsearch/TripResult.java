@@ -1,5 +1,7 @@
 package com.flightsearchback.flightsearch;
 
+import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -63,7 +65,12 @@ public class TripResult {
     public void setTotalTravelTime(String totalTravelTime) {
         this.totalTravelTime = totalTravelTime;
     }
-    
+    @Override
+    public String toString() {
+        return "TripResult [id=" + id + ", itineraries=" + Arrays.toString(itineraries) + ", price=" + price
+                + ", travelerPricings=" + Arrays.toString(travelerPricings) + ", grandTotal=" + grandTotal
+                + ", totalTravelTime=" + totalTravelTime + "]";
+    }
 
     
 }

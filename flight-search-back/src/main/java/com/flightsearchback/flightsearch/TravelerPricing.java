@@ -1,4 +1,6 @@
 package com.flightsearchback.flightsearch;
+import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -47,6 +49,12 @@ public class TravelerPricing {
     }
     public void setFareDetailsBySegment(FareDetailBySegment[] fareDetailsBySegment) {
         this.fareDetailsBySegment = fareDetailsBySegment;
+    }
+    @Override
+    public String toString() {
+        return "TravelerPricing [travelerId=" + travelerId + ", fareOption=" + fareOption + ", travelerType="
+                + travelerType + ", price=" + price + ", fareDetailsBySegment=" + Arrays.toString(fareDetailsBySegment)
+                + "]";
     }
     
 }

@@ -10,13 +10,17 @@ public class Segment {
     private String number;
     private String duration;
     private String id;
-    public Segment(Flight departure, Flight arrival, String carrierCode, String number, String duration, String id) {
+    private Aircraft aircraft;
+    private Operating operating;
+    public Segment(Flight departure, Flight arrival, String carrierCode, String number, String duration, String id, Aircraft aircraft, Operating operating) {
         this.departure = departure;
         this.arrival = arrival;
         this.carrierCode = carrierCode;
         this.number = number;
         this.duration = duration;
         this.id = id;
+        this.aircraft = aircraft;
+        this.operating = operating;
     }
     public Segment() {
     }
@@ -56,10 +60,24 @@ public class Segment {
     public void setId(String id) {
         this.id = id;
     }
+    public Aircraft getAircraft() {
+        return aircraft;
+    }
+    public void setAircraft(Aircraft aircraft) {
+        this.aircraft = aircraft;
+    }
+    public Operating getOperating() {
+        return operating;
+    }
+    public void setOperating(Operating operating) {
+        this.operating = operating;
+    }
     @Override
     public String toString() {
         return "Segment [departure=" + departure + ", arrival=" + arrival + ", carrierCode=" + carrierCode + ", number="
-                + number + ", duration=" + duration + ", id=" + id + "]";
+                + number + ", duration=" + duration + ", id=" + id + ", aircraft=" + aircraft + ", operating="
+                + operating + "]";
     }
+    
     
 }
