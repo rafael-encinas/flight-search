@@ -7,12 +7,28 @@ public class Segment {
     private Flight departure;
     private Flight arrival;
     private String carrierCode;
+    private String carrierDescription;
     private String number;
     private String duration;
     private String id;
     private Aircraft aircraft;
     private Operating operating;
-    public Segment(Flight departure, Flight arrival, String carrierCode, String number, String duration, String id, Aircraft aircraft, Operating operating) {
+    
+    public Segment(Flight departure, Flight arrival, String carrierCode, String carrierDescription, String number,
+            String duration, String id, Aircraft aircraft, Operating operating) {
+        this.departure = departure;
+        this.arrival = arrival;
+        this.carrierCode = carrierCode;
+        this.carrierDescription = carrierDescription;
+        this.number = number;
+        this.duration = duration;
+        this.id = id;
+        this.aircraft = aircraft;
+        this.operating = operating;
+    }
+    
+    public Segment(Flight departure, Flight arrival, String carrierCode, String number, String duration, String id,
+            Aircraft aircraft, Operating operating) {
         this.departure = departure;
         this.arrival = arrival;
         this.carrierCode = carrierCode;
@@ -22,6 +38,7 @@ public class Segment {
         this.aircraft = aircraft;
         this.operating = operating;
     }
+
     public Segment() {
     }
     public Flight getDeparture() {
@@ -72,12 +89,22 @@ public class Segment {
     public void setOperating(Operating operating) {
         this.operating = operating;
     }
+
+    public String getCarrierDescription() {
+        return carrierDescription;
+    }
+
+    public void setCarrierDescription(String carrierDescription) {
+        this.carrierDescription = carrierDescription;
+    }
+
     @Override
     public String toString() {
-        return "Segment [departure=" + departure + ", arrival=" + arrival + ", carrierCode=" + carrierCode + ", number="
-                + number + ", duration=" + duration + ", id=" + id + ", aircraft=" + aircraft + ", operating="
-                + operating + "]";
+        return "Segment [departure=" + departure + ", arrival=" + arrival + ", carrierCode=" + carrierCode
+                + ", carrierDescription=" + carrierDescription + ", number=" + number + ", duration=" + duration
+                + ", id=" + id + ", aircraft=" + aircraft + ", operating=" + operating + "]";
     }
+
     
     
 }
