@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  search-flight-front:
+    image: search-flight-front
+    build:
+      context: .
+      dockerfile: ./flight-search-front/Dockerfile.dev
+    environment:
+      NODE_ENV: production
+    ports:
+      - 5173:5173
+  flight-search-back:
+    image: flight-search-back
+    build:
+      context: .
+      dockerfile: ./flight-search-back/Dockerfile
+    environment:
+      - JAVA_OPTS=Xmx512m
+    ports:
+      - 8080:8080
