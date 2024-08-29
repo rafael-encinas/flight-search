@@ -4,7 +4,7 @@ import { DetailsCard } from '../DetailsCard/DetailsCard'
 
 type FlightDetailsProps = {
     data?: any,
-
+    expandDetails?:any
 }
 
 export const FlightDetails = (props: FlightDetailsProps) =>{
@@ -16,7 +16,7 @@ export const FlightDetails = (props: FlightDetailsProps) =>{
 
     let listOfSegments = props.data.itineraries[0].segments.map((element:object, index:any)=> <DetailsCard segment={element} fareDetailsBySegment={fareDetailsBySegment[index]}  key={element.id} />)
     return(
-        <div className='flightDetailsContainer'>
+        <div className={'flightDetailsContainer' + (props.expandDetails?" expandCard":"")}>
 
             <div className='segmentsContainer'>      
                 { listOfSegments }

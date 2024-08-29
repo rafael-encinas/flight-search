@@ -1,5 +1,8 @@
+import { useState } from 'react'
 import './FlightCard.css'
 import dayjs from 'dayjs'
+import { DetailsCard } from '../DetailsCard/DetailsCard'
+import { FlightDetails } from '../FlightDetails/FlightDetails'
 type FlightCardProps = {
     data?: any
 }
@@ -21,25 +24,32 @@ const Itinerary = (props: ItineraryProps) => {
     let departureAriportIata = props.flight.segments[0].departure.iataCode;
     let arrivalAirportIata = props.flight.segments[howManySegments-1].arrival.iataCode;
     let carrierCode = props.flight.segments[0].carrierCode;
+    let operatingAirlineCode = props.flight.segments[0].operating.carrierCode;
     let stops = howManySegments - 1;
     let stopsText= "";
-    let layoverText = "";
     let layoverTime = 0;
     console.log("Stops: " +stops);
+    let mappedStops = [];
+    let durationString = props.flight.duration;
+    let hIndex = durationString.indexOf("H");
+    let mIndex = durationString.indexOf("M");
+    console.log("hIndex: " + hIndex);
+    let durationHours = durationString.slice(2, hIndex);
+    let durationMinutes = durationString.slice(hIndex+1, mIndex)
     
     if(stops >= 1){
         stopsText = `${stops} stop`;
         if(stops>1) stopsText = stopsText+"s";
-
-       
-        let firstArrivalDate = dayjs(props.flight.segments[0].arrival.at);
-        let secondDepartureDate = dayjs(props.flight.segments[1].departure.at)
-        layoverTime = secondDepartureDate.diff(firstArrivalDate, 'minute')
-        console.log(layoverTime);
-        let layoverHours = Math.floor(layoverTime/60);
-        let layoverMinutes = layoverTime - (layoverHours*60)
-
-        layoverText = `${layoverHours}h ${layoverMinutes}m in Los Angeles (${props.flight.segments[0].arrival.iataCode})`;
+        
+        for(let i=0; i<props.flight.segments.length-1; i++){
+            let firstArrivalDate = dayjs(props.flight.segments[i].arrival.at);
+            let secondDepartureDate = dayjs(props.flight.segments[i+1].departure.at)
+            layoverTime = secondDepartureDate.diff(firstArrivalDate, 'minute')
+            console.log(layoverTime);
+            let layoverHours = Math.floor(layoverTime/60);
+            let layoverMinutes = layoverTime - (layoverHours*60)
+            mappedStops.push(true?<div>{layoverHours}h {layoverMinutes}m in xxx ({props.flight.segments[i].arrival.iataCode})</div>:null)
+        }
     }
 
 
@@ -47,40 +57,58 @@ const Itinerary = (props: ItineraryProps) => {
     return(
         <div className='segmentContainer'>
             <div className='departureArrivalTimes'>{props.flight.segments[0].departure.at} - {props.flight.segments[howManySegments-1].arrival.at}</div>
-            <div className='departureArrivalAirports'>San Fracisco ({departureAriportIata}) - New York ({arrivalAirportIata})</div>
+            <div className='departureArrivalAirports'>San Francisco ({departureAriportIata}) - New York ({arrivalAirportIata})</div>
             <div className='flightTime'>
-                <div>{props.flight.duration} {stops>0?`(${stopsText})`:"(Non-stop)"}</div>
-                <div>{layoverText}</div>
+                <div>Total flight time: {durationHours}h {durationMinutes}m {stops>0?`(${stopsText})`:"(Non-stop)"}</div>
+                {mappedStops.length>0?mappedStops:null}
             </div>
-            <div className='airlineInfo'>Carrier: Delta ({carrierCode})</div>
+            <div className='airlineInfo'>Carrier: {props.flight.segments[0].carrierDescription} ({carrierCode})</div>
+            {operatingAirlineCode!=carrierCode?<div className='firstCol'>Operating: {props.flight.segments[0].operating.carrierDescription} ({operatingAirlineCode})</div>:null}
+            <div className='firstCol'>Flight: {props.flight.segments[0].number}</div>
         </div>
     )
 }
 
 
+
 export const FlightCard = (props: FlightCardProps) =>{
+    const [expandDetails, setExpandDetails] = useState(false)
 
    console.log(props.data)
 
+   function handleFocus(){
+    console.log("Segment was focused!")
+    setExpandDetails(!expandDetails)
+}
+
+/*
+            {expandDetails?<DetailsCard segment={props.data.itineraries[0].segments[0]} fareDetailsBySegment={props.data.travelerPricings[0].fareDetailsBySegment} />:null}
+*/
+
     let mappedItineraries = props.data.itineraries.map((element:object, index: any) => <Itinerary flight={element} key={props.data.id + index} />)
 
+    //let mappedSegments = props.data.itineraries.map((element:object, index: any) => <Itinerary flight={element} key={props.data.id + index} />)
+
+
     return(
-        <div className='flightCard'>
+        <div className='flightCard' onClick={handleFocus}>
             <div className='allSegments'>
                 { mappedItineraries }
             </div>
 
           <div className='pricesContainer'>
                 <div className='totalPrice'>
-                    <div>$1,500.00 MXN</div>
+                    <div>$ {props.data.price.grandTotal} {props.data.price.currency}</div>
                     <div>total</div>
                 </div>
 
                 <div className='perTravelerPrice'>
-                    <div>$500.00 MXN</div>
+                    <div>$ {props.data.travelerPricings[0].price.total} {props.data.travelerPricings[0].price.currency}</div>
                     <div>per Traveler</div>
                 </div>
             </div>
+            
+            <FlightDetails expandDetails={expandDetails} data={props.data}/>
         </div>
     )
 }

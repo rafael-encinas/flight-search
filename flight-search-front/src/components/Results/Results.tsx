@@ -14,6 +14,29 @@ export const Results = (props: ResultsProps)=>{
         props.setData(null);
     }
 
+    function compareByPriceAsc(a:any, b:any) {
+        return a.grandTotal - b.grandTotal;
+      }
+
+    function compareByPriceDesc(a:any, b:any) {
+        return b.grandTotal - a.grandTotal;
+      }
+    function compareByDurationAsc(a:any, b:any){
+        return a.totalTravelTime - b.totalTravelTime;
+    }
+    function compareByDurationDesc(a:any, b:any){
+        return b.totalTravelTime - a.totalTravelTime;
+    }
+
+    function sortByPrice(){
+        console.log("Comparing by price");
+        //props.data.sort(compareByPrice)
+    }
+
+    function sortByDuration(){
+
+    }
+
 
     //data.map() to show all flight options
     return (
@@ -21,7 +44,7 @@ export const Results = (props: ResultsProps)=>{
             <div className='buttonsContainer'>
                 <button onClick={returnToSearch}>Return to search</button>
                 <div>
-                    <button>Sort by price</button>
+                    <button onClick={sortByPrice}>Sort by price</button>
                     <button>Sort by duration</button>
                 </div>
             </div>
