@@ -4,8 +4,7 @@ import { AirportInput } from '../AirportInput/AirportInput';
 import dayjs from 'dayjs';
 
 type SearchContainerProps = {
-    setOriginLocationCode: any,
-    onGetResultFlights: any
+    onGetResultFlights: any,
 }
 
 export const  SearchContainer = (props: SearchContainerProps)=>{
@@ -22,7 +21,7 @@ export const  SearchContainer = (props: SearchContainerProps)=>{
         event.preventDefault();
         console.log("Searching for: ");
         let originLocationCode = event.target.elements.DepartureAirport.value;
-        props.setOriginLocationCode(originLocationCode);
+        //props.setOriginLocationCode(originLocationCode);
         let destinationLocationCode = event.target.elements.ArrivalAirport.value;
         let departureDate = event.target.elements.departureDate.value;
         let returnDate = event.target.elements.returnDate.value;
@@ -34,7 +33,6 @@ export const  SearchContainer = (props: SearchContainerProps)=>{
         console.log("destinationLocation: " + destinationLocationCode);
         console.log("nonStop: " + nonStop);
         props.onGetResultFlights(originLocationCode, destinationLocationCode, departureDate, returnDate, adults, currencyCode, nonStop);
-
     }
 
     // TODO: Set date inputs 'min' to today

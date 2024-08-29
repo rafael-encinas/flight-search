@@ -25,6 +25,7 @@ const Itinerary = (props: ItineraryProps) => {
     let stopsText= "";
     let layoverText = "";
     let layoverTime = 0;
+    console.log("Stops: " +stops);
     
     if(stops >= 1){
         stopsText = `${stops} stop`;
@@ -48,7 +49,7 @@ const Itinerary = (props: ItineraryProps) => {
             <div className='departureArrivalTimes'>{props.flight.segments[0].departure.at} - {props.flight.segments[howManySegments-1].arrival.at}</div>
             <div className='departureArrivalAirports'>San Fracisco ({departureAriportIata}) - New York ({arrivalAirportIata})</div>
             <div className='flightTime'>
-                <div>{props.flight.duration} {stops>0?`(${stopsText})`:""}</div>
+                <div>{props.flight.duration} {stops>0?`(${stopsText})`:"(Non-stop)"}</div>
                 <div>{layoverText}</div>
             </div>
             <div className='airlineInfo'>Carrier: Delta ({carrierCode})</div>

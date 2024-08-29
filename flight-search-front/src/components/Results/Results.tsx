@@ -3,17 +3,23 @@ import './Results.css'
 import { FlightCard } from '../FlightCard/FlightCard';
 
 type ResultsProps = {
-  data: any;
+  data: any,
+  setData: any,
 }
 
 export const Results = (props: ResultsProps)=>{
+
+    function returnToSearch(){
+        console.log("Clicked on return to search!");
+        props.setData(null);
+    }
 
 
     //data.map() to show all flight options
     return (
         <div className='resultsContainer'>
             <div className='buttonsContainer'>
-                <button>Return to search</button>
+                <button onClick={returnToSearch}>Return to search</button>
                 <div>
                     <button>Sort by price</button>
                     <button>Sort by duration</button>
@@ -21,7 +27,7 @@ export const Results = (props: ResultsProps)=>{
             </div>
 
             {/* <FlightCard segments={segments1} /> */}
-            {props.data.data.map((element:any) => <FlightCard data={element} key={element.id} />)}
+            {props.data.map((element:any) => <FlightCard data={element} key={element.id} />)}
         </div>
     )
 }
