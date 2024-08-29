@@ -22,6 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.*;
@@ -196,8 +198,22 @@ public class FlightsearchService {
             String jsonPrices = ow.writeValueAsString(item.get("price"));
             Price prices = objectMapper.readValue(jsonPrices, Price.class);
             tripResult.setGrandTotal(prices.getGrandTotal());
-            System.out.println(prices.getGrandTotal());
+            //System.out.println(prices.getGrandTotal());
             tripResult.setPrice(prices);
+
+            //substring index 2 - index (h)
+            String durationString = itineraries[0].getDuration();
+            System.out.println("Departure duration");
+            System.out.println(durationString);
+            int hIndex = durationString.indexOf("H");
+            int mIndex = durationString.indexOf("M");
+            String hoursString = durationString.substring(2, hIndex);
+            String minutesString = durationString.substring(hIndex+1, mIndex);
+
+            int totalTravelTime = (Integer.parseInt(hoursString)*60) + Integer.parseInt(minutesString);
+            System.out.println("TotalTravelTime in minutes");
+            System.out.println(totalTravelTime);
+            tripResult.setTotalTravelTime(totalTravelTime);
 
 
             String jsonTravelerPricing = ow.writeValueAsString(item.get("travelerPricings"));
@@ -209,7 +225,7 @@ public class FlightsearchService {
             System.out.println("////////////////");
         }
 
-        tripResults = sortByPrice(tripResults);
+        tripResults = sortByDuration(tripResults);
 
         return tripResults;
         
@@ -222,5 +238,11 @@ public class FlightsearchService {
         );
         return list;
     }
-    
+    private List<TripResult> sortByDuration(List<TripResult> list){
+        list.sort(
+            //(a,b) -> String.valueOf(a.getGrandTotal()).compareTo(String.valueOf(b.getGrandTotal()))
+            (a,b) -> a.getTotalTravelTime() - b.getTotalTravelTime()
+        );
+        return list;
+    }
 }

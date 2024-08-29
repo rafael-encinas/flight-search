@@ -11,9 +11,9 @@ public class TripResult {
     private Price price;
     private TravelerPricing[] travelerPricings;
     private String grandTotal;
-    private String totalTravelTime;
+    private int totalTravelTime;
     public TripResult(String id, Itinerary[] itineraries, Price price, TravelerPricing[] travelerPricings,
-            String grandTotal, String totalTravelTime) {
+            String grandTotal, int totalTravelTime) {
         this.id = id;
         this.itineraries = itineraries;
         this.price = price;
@@ -59,10 +59,10 @@ public class TripResult {
     public void setGrandTotal(String grandTotal) {
         this.grandTotal = grandTotal;
     }
-    public String getTotalTravelTime() {
+    public int getTotalTravelTime() {
         return totalTravelTime;
     }
-    public void setTotalTravelTime(String totalTravelTime) {
+    public void setTotalTravelTime(int totalTravelTime) {
         this.totalTravelTime = totalTravelTime;
     }
     @Override
