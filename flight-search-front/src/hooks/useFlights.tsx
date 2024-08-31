@@ -10,7 +10,7 @@ type onGetResultFlightsProps ={
   nonStop: any
 } 
 */
-export const useFlights = (setData:any) =>{
+export const useFlights = (setData:any, setSortedData:any) =>{
 
     const apiUrl = import.meta.env.VITE_REACT_APP_API_AIRPORTS_URL;
 
@@ -33,7 +33,9 @@ export const useFlights = (setData:any) =>{
           //console.log(data);
 
           setTimeout(
-            () => setData(data), 
+            () => {setData(data)
+                  setSortedData(data)
+            }, 
             100
           );
         })
