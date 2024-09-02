@@ -1,50 +1,33 @@
-# React + TypeScript + Vite
+# Flight Search Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Enviroment variables
+This project uses an environment variable called "VITE_REACT_APP_API_AIRPORTS_URL" for the backend API url, so in order for the project to work correctly please make sure to create a new ".env" file in this directory, as shown here:
 
-Currently, two official plugins are available:
+![.env file location](./public/env_file_location.png?raw=true)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+It should contain a single variable called "VITE_REACT_APP_API_AIRPORTS_URL" with the API URL:
+![API endpoint](./public/api_endpoint.png?raw=true)
 
-## Expanding the ESLint configuration
+## Docker
+Once you have environment variable for the API URL is setup, you may now run the project as Docker container.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+To create an image build, please run the following command:
+> docker build . -t "flight-search-front"
 
-- Configure the top-level `parserOptions` property like this:
+And to run it using Docker compose, run the following command:
+> docker compose up
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### Changing Dockerfile
+If you need to change anything from "Dockerfile", please make sure to replicate this change on the "Dockerfile.dev" file as well, since this is the one used when running both frontend and backend as a single Docker compose.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Project
+To install all the necessary dependencies, run the following command in this directory:
+> npm install
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+To run the project:
+> npm run start
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+To run the tests:
+> npm run test
+
+components
