@@ -7,6 +7,14 @@ public class Flight {
     private String iataCode;
     private String at;
     private String terminal;
+    private String cityName;
+    
+    public Flight(String iataCode, String at, String terminal, String cityName) {
+        this.iataCode = iataCode;
+        this.at = at;
+        this.terminal = terminal;
+        this.cityName = cityName;
+    }
     public Flight(String iataCode, String at, String terminal) {
         this.iataCode = iataCode;
         this.at = at;
@@ -36,10 +44,18 @@ public class Flight {
     public void setTerminal(String terminal) {
         this.terminal = terminal;
     }
+    public String getCityName() {
+        return cityName;
+    }
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
     @Override
     public String toString() {
-        return "Flight [iataCode=" + iataCode + ", at=" + at + ", terminal=" + terminal + "]";
+        return "Flight [iataCode=" + iataCode + ", at=" + at + ", terminal=" + terminal + ", cityName=" + cityName
+                + "]";
     }
+    
     
     
 }

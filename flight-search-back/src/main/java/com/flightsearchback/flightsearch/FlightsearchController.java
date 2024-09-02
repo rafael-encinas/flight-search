@@ -40,30 +40,8 @@ public class FlightsearchController {
 
     @Value("${app.apiUrl}")
     String apiUrl;
-/* 
 
-*/
-    @GetMapping("/hello")
-    public String hello(){
-        return "Hello world!";
-    }
-
-    @GetMapping("/callclientehello")
-    private String getHelloClient(){
-        String uri = "http://localhost:8080/api/hello";
-        RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(uri, String.class);
-        return result;
-    }
-
-    @GetMapping("/access")
-    private void getToken(){
-        flightsearchService.authenticate();
-        //return response;
-    }
-
-
-    @GetMapping("/aiports")
+    @GetMapping("/airports")
     public List<Airport> getMatchingAriports(@RequestParam String keyword) throws JsonMappingException, JsonProcessingException {
         //
 
