@@ -186,8 +186,8 @@ public class FlightsearchService {
 
 
             dictionaries = (Map) mockResponse.get("dictionaries");
-            System.out.println(dictionaries);
-            System.out.println(dictionaries.get("aircraft"));
+            //System.out.println(dictionaries);
+            //System.out.println(dictionaries.get("aircraft"));
             Map<String, String> aircraft = (Map<String, String>) dictionaries.get("aircraft");
             Map<String, String> carriers = (Map<String, String>) dictionaries.get("carriers");
 
