@@ -1,70 +1,70 @@
+import { useState } from 'react'
 import './Results.css'
 
-import { FlightCard } from '../FlightCard/FlightCard'
+import { FlightCard } from '../FlightCard/FlightCard';
 
-export const Results = ()=>{
+type ResultsProps = {
+  data: any,
+  setSortedData: any,
+  updatePriceSorting:any,
+  updateDurationSorting:any
+}
 
-    let segments1 = [
-        {
-          "departure": {
-            "iataCode": "SYD",
-            "terminal": "1",
-            "at": "2021-11-01T11:35:00"
-          },
-          "arrival": {
-            "iataCode": "MNL",
-            "terminal": "2",
-            "at": "2021-11-01T16:50:00"
-          },
-          "carrierCode": "PR",
-          "number": "212",
-          "aircraft": {
-            "code": "333"
-          },
-          "operating": {
-            "carrierCode": "PR"
-          },
-          "duration": "PT8H15M",
-          "id": "1",
-          "numberOfStops": 0,
-          "blacklistedInEU": false
-        },
-        {
-          "departure": {
-            "iataCode": "MNL",
-            "terminal": "1",
-            "at": "2021-11-01T19:20:00"
-          },
-          "arrival": {
-            "iataCode": "BKK",
-            "at": "2021-11-01T21:50:00"
-          },
-          "carrierCode": "PR",
-          "number": "732",
-          "aircraft": {
-            "code": "320"
-          },
-          "operating": {
-            "carrierCode": "PR"
-          },
-          "duration": "PT3H30M",
-          "id": "2",
-          "numberOfStops": 0,
-          "blacklistedInEU": false
+export const Results = (props: ResultsProps)=>{
+    const [sortByPrice, setSortByPrice] = useState(0);
+    const [sortByDuration, setSortByDuration] = useState(0);
+
+    function returnToSearch(){
+        console.log("Clicked on return to search!");
+        props.setSortedData(null);
+    }
+
+    function handlePriceSortingClick(){
+        //let tempSorting = sortByPrice;
+        if(sortByPrice == 2){
+            console.log("Unsorted");
+            setSortByPrice(0);
+            props.updatePriceSorting(0);
+        } else if(sortByPrice == 0){
+            console.log("Asc");
+            setSortByPrice(1);
+            props.updatePriceSorting(1);
+        } else {
+            console.log("Desc");
+            setSortByPrice(2);
+            props.updatePriceSorting(2);
         }
-      ];
+    }
 
-    //If one flight has multiple segments, create new component using FlightCard 
+    function handleDurationSortingClick(){
+        if(sortByDuration == 2){
+            console.log("Unsorted");
+            setSortByDuration(0);
+            props.updateDurationSorting(0);
+        } else if(sortByDuration == 0){
+            console.log("Asc");
+            setSortByDuration(1);
+            props.updateDurationSorting(1);
+        } else {
+            console.log("Desc");
+            setSortByDuration(2);
+            props.updateDurationSorting(2);
+        }
+    }
+
+
+    //data.map() to show all flight options
     return (
         <div className='resultsContainer'>
+            <h2>Flight search results</h2>
             <div className='buttonsContainer'>
-                <button>Return to search</button>
+                <button onClick={returnToSearch}>Return to search</button>
                 <div>
-                    <button>Sort by price</button>
-                    <button>Sort by duration</button>
+                    <button onClick={handleDurationSortingClick}>Sort by duration: {sortByDuration%3 == 0?"Unsorted":sortByDuration%3==1?"Ascending":"Descending"}</button>
+                    <button onClick={handlePriceSortingClick}>Sort by price: {sortByPrice%3 == 0?"Unsorted":sortByPrice%3==1?"Ascending":"Descending"}</button>
                 </div>
             </div>
-            <FlightCard segments={segments1} />
+            {props.data.map((element:any) => <FlightCard data={element} key={element.id} />)}
         </div>
     )
 }

@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  flight-search-back:
+    image: flight-search-back
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - JAVA_OPTS=Xmx512m
+    ports:
+      - 8080:8080

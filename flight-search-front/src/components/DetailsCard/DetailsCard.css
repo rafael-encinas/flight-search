@@ -22,4 +22,15 @@
     box-sizing: border-box;
     padding: 10px;
     margin: 10px;
+    &>div{
+        text-align: start;
+    }
+}
+
+#amenitiesTitle{
+    text-align: center;
+}
+
+h4{
+    margin: 10px 0;
 }

@@ -1,4 +1,5 @@
 import './DetailsCard.css'
+import dayjs from 'dayjs'
 
 type DetailsCardsProps = {
     segment?: any,
@@ -9,28 +10,47 @@ export const DetailsCard = (props: DetailsCardsProps) => {
     let carrierCode: string = props.segment.carrierCode;
     let operatingCarrierCode: string = props.segment.operating.carrierCode;
     let equalsCheck: boolean = carrierCode === operatingCarrierCode;
-    console.log("Same?: " + equalsCheck);
     let fareDetailsBySegment = props.fareDetailsBySegment;
 
-    console.log("fareDetailsBySegment:");
-    console.log(fareDetailsBySegment);
+
+    let departureTime = dayjs(props.segment.departure.at);
+    let formattedDepartureTime = departureTime.format('YYYY-MM-DD HH:mm');
+
+    let arrivalTime = dayjs(props.segment.arrival.at);
+    let formattedArrivalTime = arrivalTime.format('YYYY-MM-DD HH:mm');
+
+    let mappedAmenities;
+
+    if(fareDetailsBySegment.amenities!=null){
+        mappedAmenities = fareDetailsBySegment.amenities.map((element:any, index:any)=> <>
+        <div className='amenity'>- {element.description}</div>
+        <div className='amenity'>- {element.chargeable?"Chargeable":"Not chargeable"}</div>
+
+    </>)
+    }
+
+
 
     return(
         <div className='detailsCard'>
             <div className='segmentDetails'>
-                <div>Segment { props.segment.id }</div>
-                <div>{props.segment.departure.at} - {props.segment.arrival.at}</div>
-                <div>San Francisco ({props.segment.departure.iataCode}) - New York ({props.segment.arrival.iataCode})</div>
-                <div>Airline: Aeromexico ({props.segment.carrierCode})</div>
+                <h4>Segment { props.segment.id } details</h4>
+                <div>{formattedDepartureTime} - {formattedArrivalTime}</div>
+                <div>{props.segment.departure.cityName} ({props.segment.departure.iataCode}) - {props.segment.arrival.cityName} ({props.segment.arrival.iataCode})</div>
+                <div>Carrier: {props.segment.operating.carrierDescription} ({props.segment.carrierCode})</div>
+                {operatingCarrierCode!=carrierCode?<div className='firstCol'>Operating: {props.segment.operating.carrierDescription} ({operatingCarrierCode})</div>:null}
                 <div>Flight number: {props.segment.number}</div>
-                {equalsCheck? null:
-                <div>Operating Airline: Otromexico ({operatingCarrierCode})</div>
-                }
+                <div>Aircraft: {props.segment.aircraft.description}</div>
+
             </div>
             <div className='fareDetails'>
-                <div>Travelers fare details</div>
+                <h4>Travelers fare details</h4>
                 <div>Cabin: {fareDetailsBySegment.cabin}</div>
                 <div>Class: {fareDetailsBySegment.class}</div>
+                <div className='amenitiesContainer'>
+                    <h4 id='amenitiesTitle'>Amenities:</h4>
+                    {mappedAmenities}
+                </div>
             </div>
         </div>
     )
