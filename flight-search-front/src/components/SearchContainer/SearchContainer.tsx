@@ -19,7 +19,7 @@ export const  SearchContainer = (props: SearchContainerProps)=>{
 
     function handleSubmit(event: any){
         event.preventDefault();
-        //console.log("Searching for: ");
+
         let originLocationCode = event.target.elements.DepartureAirport.value;
         let destinationLocationCode = event.target.elements.ArrivalAirport.value;
         let departureDate = event.target.elements.departureDate.value;

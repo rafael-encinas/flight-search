@@ -49,6 +49,9 @@ const Itinerary = (props: ItineraryProps) => {
     let arrivalTime = dayjs(props.flight.segments[howManySegments-1].arrival.at);
     let formattedArrivalTime = arrivalTime.format('YYYY-MM-DD HH:mm');
 
+    let departureCityName = props.flight.segments[0].departure.cityName;
+    let arrivalCityName = props.flight.segments[howManySegments-1].arrival.cityName;
+
 
 
 
@@ -56,7 +59,7 @@ const Itinerary = (props: ItineraryProps) => {
     return(
         <div className='segmentContainer'>
             <div className='departureArrivalTimes'>{formattedDepartureTime} - {formattedArrivalTime}</div>
-            <div className='departureArrivalAirports'>San Francisco ({departureAriportIata}) - New York ({arrivalAirportIata})</div>
+            <div className='departureArrivalAirports'>{departureCityName} ({departureAriportIata}) - {arrivalCityName} ({arrivalAirportIata})</div>
             <div className='flightTime'>
                 <div>Total flight time: {durationHours}h {durationMinutes}m {stops>0?`(${stopsText})`:"(Non-stop)"}</div>
                 {mappedStops.length>0?mappedStops:null}

@@ -36,7 +36,7 @@ export const DetailsCard = (props: DetailsCardsProps) => {
             <div className='segmentDetails'>
                 <h4>Segment { props.segment.id } details</h4>
                 <div>{formattedDepartureTime} - {formattedArrivalTime}</div>
-                <div>San Francisco ({props.segment.departure.iataCode}) - New York ({props.segment.arrival.iataCode})</div>
+                <div>{props.segment.departure.cityName} ({props.segment.departure.iataCode}) - {props.segment.arrival.cityName} ({props.segment.arrival.iataCode})</div>
                 <div>Carrier: {props.segment.operating.carrierDescription} ({props.segment.carrierCode})</div>
                 {operatingCarrierCode!=carrierCode?<div className='firstCol'>Operating: {props.segment.operating.carrierDescription} ({operatingCarrierCode})</div>:null}
                 <div>Flight number: {props.segment.number}</div>

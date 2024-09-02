@@ -29,7 +29,7 @@ export const AirportInput = (props: AirportInputProps) =>{
 
     function fetchAirportData(keyword:string){
         if(keyword.length>1){
-            fetch(`${apiUrl + '/aiports?keyword=' + keyword}`)
+            fetch(`${apiUrl + '/airports?keyword=' + keyword}`)
             .then(response => response.json())
             .then(data=>{
                 setAirportData(data);
