@@ -1,0 +1,5 @@
+spring.application.name=flightsearch
+
+app.client_id = 
+app.client_secret = 
+app.apiUrl = 

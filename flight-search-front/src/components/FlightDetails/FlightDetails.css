@@ -1,0 +1,47 @@
+.flightDetailsContainer{
+    width: 100%;
+    border: 1px solid var(--white-color);
+    box-sizing: border-box;
+    padding: 25px;
+    margin: 0 auto;
+    /*display: flex;*/
+    gap: 25px;
+    grid-column: 1 / 3;
+    transition: 1000ms;
+    display: none;
+ }
+
+.segmentsContainer{
+    flex-grow: 1;
+}
+
+.priceBreakdown{
+    border: 1px solid var(--white-color);
+    width: fit-content;
+    height: fit-content;
+    text-align: start;
+    padding: 15px;
+}
+
+.perTravelerContainer{
+    border: 1px solid var(--white-color);
+    box-sizing: border-box;
+    margin: 10px;
+    text-align: start;
+    padding: 10px;
+    height: fit-content;
+
+}
+
+.expandCard{
+    transition: 1000ms;
+    display: flex;
+    flex-direction: column;
+}
+
+.innerDetailsContainer{
+    display: flex;
+    gap: 25px;
+    flex-direction: row;
+}
+
