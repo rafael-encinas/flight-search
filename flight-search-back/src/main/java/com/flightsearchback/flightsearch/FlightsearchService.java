@@ -179,9 +179,12 @@ public class FlightsearchService {
         */
         //list = (List<Map>) response.getBody().get("data");
 
+        //Using mockData instead of Api request
             ObjectMapper objectMapperMock = new ObjectMapper();
             Map mockResponse = objectMapperMock.readValue(mockData, Map.class);
             list = (List<Map>) mockResponse.get("data");
+
+
             dictionaries = (Map) mockResponse.get("dictionaries");
             System.out.println(dictionaries);
             System.out.println(dictionaries.get("aircraft"));
@@ -192,11 +195,7 @@ public class FlightsearchService {
             //We get access to all the superficial data inside each array item, like type, id, source, numberOfBookableSeats, etc
             TripResult tripResult = new TripResult();
             tripResult.setId(item.get("id").toString());
-            //System.out.println("Each item");
-            
-            //System.out.println(item.get("itineraries"));
-            
-            
+
             ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
             ObjectMapper objectMapper = new ObjectMapper();
 
@@ -205,6 +204,8 @@ public class FlightsearchService {
             for(Itinerary itinerary : itineraries){
                 for(Segment segment : itinerary.getSegments()){
                     
+                    //Commented because mockData dictionary doesn't match the request data
+
                     //segment.setCarrierDescription(carriers.get(segment.getCarrierCode()));
                     //segment.getAircraft().setDescription(aircraft.get(segment.getAircraft().getCode()));
                     //segment.getOperating().setCarrierDescription(carriers.get(segment.getOperating().getCarrierCode()));
@@ -219,21 +220,16 @@ public class FlightsearchService {
             String jsonPrices = ow.writeValueAsString(item.get("price"));
             Price prices = objectMapper.readValue(jsonPrices, Price.class);
             tripResult.setGrandTotal(prices.getGrandTotal());
-            //System.out.println(prices.getGrandTotal());
             tripResult.setPrice(prices);
 
             //substring index 2 - index (h)
             String durationString = itineraries[0].getDuration();
-            //System.out.println("Departure duration");
-            //System.out.println(durationString);
             int hIndex = durationString.indexOf("H");
             int mIndex = durationString.indexOf("M");
             String hoursString = durationString.substring(2, hIndex);
             String minutesString = durationString.substring(hIndex+1, mIndex);
 
             int totalTravelTime = (Integer.parseInt(hoursString)*60) + Integer.parseInt(minutesString);
-            //System.out.println("TotalTravelTime in minutes");
-            //System.out.println(totalTravelTime);
             tripResult.setTotalTravelTime(totalTravelTime);
 
 
@@ -242,11 +238,7 @@ public class FlightsearchService {
             tripResult.setTravelerPricings(travelersPricings);
 
             tripResults.add(tripResult);
-
-            System.out.println("////////////////");
         }
-
-        //tripResults = sortByDuration(tripResults);
 
         return tripResults;
         
