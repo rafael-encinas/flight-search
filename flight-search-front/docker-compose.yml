@@ -1,8 +1,8 @@
 version: '3.4'
 
 services:
-  search-flight-front:
-    image: search-flight-front
+  flight-search-front:
+    image: flight-search-front
     build:
       context: .
       dockerfile: ./Dockerfile
