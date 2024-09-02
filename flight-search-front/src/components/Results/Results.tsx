@@ -37,7 +37,6 @@ export const Results = (props: ResultsProps)=>{
     }
 
     function handleDurationSortingClick(){
-        //let tempSorting = sortByPrice;
         if(sortByDuration == 2){
             console.log("Unsorted");
             setSortByDuration(0);
@@ -65,8 +64,6 @@ export const Results = (props: ResultsProps)=>{
                     <button onClick={handlePriceSortingClick}>Sort by price: {sortByPrice%3 == 0?"Unsorted":sortByPrice%3==1?"Ascending":"Descending"}</button>
                 </div>
             </div>
-
-            {/* <FlightCard segments={segments1} /> */}
             {props.data.map((element:any) => <FlightCard data={element} key={element.id} />)}
         </div>
     )

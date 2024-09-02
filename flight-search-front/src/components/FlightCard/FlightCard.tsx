@@ -5,13 +5,7 @@ import { FlightDetails } from '../FlightDetails/FlightDetails'
 type FlightCardProps = {
     data?: any
 }
-// Crear un tipo segmento con todas las propiedades y sus tipos de variables 
-// segment?: signifca que no es obligatoria
-//loop de segments
-//id para cada segmento
-//segmento -> array de objetos, mapeo del array
 
-//Mini componente, sin exportar, solo uso interno
 
 type ItineraryProps = {
     flight?: any
@@ -28,12 +22,10 @@ const Itinerary = (props: ItineraryProps) => {
     let stops = howManySegments - 1;
     let stopsText= "";
     let layoverTime = 0;
-    //console.log("Stops: " +stops);
     let mappedStops = [];
     let durationString = props.flight.duration;
     let hIndex = durationString.indexOf("H");
     let mIndex = durationString.indexOf("M");
-    //console.log("hIndex: " + hIndex);
     let durationHours = durationString.slice(2, hIndex);
     let durationMinutes = durationString.slice(hIndex+1, mIndex)
     
@@ -45,7 +37,6 @@ const Itinerary = (props: ItineraryProps) => {
             let firstArrivalDate = dayjs(props.flight.segments[i].arrival.at);
             let secondDepartureDate = dayjs(props.flight.segments[i+1].departure.at)
             layoverTime = secondDepartureDate.diff(firstArrivalDate, 'minute')
-            //console.log(layoverTime);
             let layoverHours = Math.floor(layoverTime/60);
             let layoverMinutes = layoverTime - (layoverHours*60)
             mappedStops.push(true?<div>{layoverHours}h {layoverMinutes}m in xxx ({props.flight.segments[i].arrival.iataCode})</div>:null)
@@ -83,18 +74,11 @@ const Itinerary = (props: ItineraryProps) => {
 export const FlightCard = (props: FlightCardProps) =>{
     const [expandDetails, setExpandDetails] = useState(false)
 
-   //console.log(props.data)
-
    function handleFocus(){
-    //console.log("Segment was focused!")
     setExpandDetails(!expandDetails)
 }
 
-
-
     let mappedItineraries = props.data.itineraries.map((element:object, index: any) => <Itinerary expandDetails={expandDetails} flight={element} key={props.data.id + index} />)
-
-    //let mappedSegments = props.data.itineraries.map((element:object, index: any) => <Itinerary flight={element} key={props.data.id + index} />)
 
 
     return(
@@ -115,7 +99,7 @@ export const FlightCard = (props: FlightCardProps) =>{
                 </div>
             </div>
             
-            <FlightDetails expandDetails={expandDetails} data={props.data}/>
+            <FlightDetails expandDetails={expandDetails} data={props.data} key={"flightDetailsKey:"+props.data.id}/>
         </div>
     )
 }

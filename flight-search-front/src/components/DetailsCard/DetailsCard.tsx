@@ -10,13 +10,7 @@ export const DetailsCard = (props: DetailsCardsProps) => {
     let carrierCode: string = props.segment.carrierCode;
     let operatingCarrierCode: string = props.segment.operating.carrierCode;
     let equalsCheck: boolean = carrierCode === operatingCarrierCode;
-    //console.log("Same?: " + equalsCheck);
     let fareDetailsBySegment = props.fareDetailsBySegment;
-
-
-
-    //console.log("fareDetailsBySegment:");
-    //console.log(fareDetailsBySegment);
 
 
     let departureTime = dayjs(props.segment.departure.at);

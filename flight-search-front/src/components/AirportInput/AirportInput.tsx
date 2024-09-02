@@ -10,7 +10,6 @@ type AirportInputProps = {
 export const AirportInput = (props: AirportInputProps) =>{
 
     const apiUrl = import.meta.env.VITE_REACT_APP_API_AIRPORTS_URL;
-    //console.log("ApirUrl: " + apiUrl);
 
     const [airportData, setAirportData] = useState([]);
     const [query, setQuery] = useState("");
@@ -33,7 +32,6 @@ export const AirportInput = (props: AirportInputProps) =>{
             fetch(`${apiUrl + '/aiports?keyword=' + keyword}`)
             .then(response => response.json())
             .then(data=>{
-                //console.log(data);
                 setAirportData(data);
                 console.log(airportData)
             });
@@ -45,8 +43,9 @@ export const AirportInput = (props: AirportInputProps) =>{
     return(
         <>
             <label htmlFor={props.type + "Airport"}>{props.type} Airport:</label>
-            <input list={props.type+'airports'} id={props.type + "Airport"} name={props.type + "Airport"} value={query} required onChange={(e)=>setQuery(e.target.value)} />
-            <datalist id={props.type+'airports'}>
+            <input list={props.type+'airports'} id={props.type + "Airport"} name={props.type + "Airport"} value={query} required onChange={(e)=>setQuery(e.target.value)} data-testid={props.type + 'Input-test'} />
+            <datalist id={props.type+'airports'}
+            >
                 {airportData.length>0?
                 airportData.map((airport:any, index)=> <Option iataCode={airport.iataCode} cityName={airport.address.cityName} key={index}/> )
                 :

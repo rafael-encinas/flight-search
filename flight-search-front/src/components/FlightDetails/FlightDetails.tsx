@@ -9,9 +9,6 @@ type FlightDetailsProps = {
 
 export const FlightDetails = (props: FlightDetailsProps) =>{
 
-   //console.log("From flightdetails, props:")
-   // console.log(props.data);
-
     let fareDetailsBySegment = props.data.travelerPricings[0].fareDetailsBySegment;
 
 
@@ -19,14 +16,13 @@ export const FlightDetails = (props: FlightDetailsProps) =>{
         let firstArrivalDate = dayjs(props.data.itineraries[itineraryIndex].segments[index-1].arrival.at);
         let secondDepartureDate = dayjs(props.data.itineraries[itineraryIndex].segments[index].departure.at)
         let layoverTime = secondDepartureDate.diff(firstArrivalDate, 'minute')
-        //console.log(layoverTime);
         let layoverHours = Math.floor(layoverTime/60);
         let layoverMinutes = layoverTime - (layoverHours*60);
 
         return `${layoverHours}h ${layoverMinutes}m`;
     }
 
-    //Changeo to map itineraries and then map segments
+    //Change to map itineraries and then map segments
     let listOfSegments = props.data.itineraries.map((element:any, indexTop:any)=> 
                                     element.segments.map((element:object, index:any)=> 
                                         <>
@@ -34,11 +30,7 @@ export const FlightDetails = (props: FlightDetailsProps) =>{
                                             <DetailsCard segment={element} fareDetailsBySegment={fareDetailsBySegment[index]}  key={element.id} />
                                         </>))
 
-    //let templistOfSegments = props.data.itineraries[0].segments.map((element:object, index:any)=> <DetailsCard segment={element} fareDetailsBySegment={fareDetailsBySegment[index]}  key={element.id} />)
-    
     let mappedFees = props.data.price.fees.map((fee:any, index:any)=><div>- {fee.type}: {fee.amount} {props.data.price.currency}</div>);
-
-    //let mappedFeesPerTraveler = props.data.travelerPricings[0].price.fees.map((fee:any, index:any)=><div>- {fee.type}: {fee.amount} {props.data.price.currency}</div>);
 
     return(
         <div className={'flightDetailsContainer' + (props.expandDetails?" expandCard":"")}>

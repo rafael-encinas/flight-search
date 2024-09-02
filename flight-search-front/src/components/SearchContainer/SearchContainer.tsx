@@ -19,9 +19,8 @@ export const  SearchContainer = (props: SearchContainerProps)=>{
 
     function handleSubmit(event: any){
         event.preventDefault();
-        console.log("Searching for: ");
+        //console.log("Searching for: ");
         let originLocationCode = event.target.elements.DepartureAirport.value;
-        //props.setOriginLocationCode(originLocationCode);
         let destinationLocationCode = event.target.elements.ArrivalAirport.value;
         let departureDate = event.target.elements.departureDate.value;
         let returnDate = event.target.elements.returnDate.value;
@@ -29,20 +28,18 @@ export const  SearchContainer = (props: SearchContainerProps)=>{
         let currencyCode = event.target.elements.currency.value;
         let nonStop = event.target.elements.stops.checked;
         
-        console.log("originLocation: " + originLocationCode);
-        console.log("destinationLocation: " + destinationLocationCode);
-        console.log("nonStop: " + nonStop);
         props.onGetResultFlights(originLocationCode, destinationLocationCode, departureDate, returnDate, adults, currencyCode, nonStop);
     }
 
     // TODO: Set date inputs 'min' to today
 
     function checkIfDateIsCorrect(e: any){
-        console.log("date changed!")
         //When departure date is set, minReturnDate should be set to the departureDate
-        setMinReturnDate(e.target.value);
-        console.log(e.target.value);
-
+        if(e.target.value!=""){
+            setMinReturnDate(e.target.value);
+        } else{
+            setMinReturnDate(minDate);
+        }
     }
     return(
         <form className='searchContainer' onSubmit={(e)=>handleSubmit(e)}>
@@ -56,20 +53,23 @@ export const  SearchContainer = (props: SearchContainerProps)=>{
                     id="departureDate"
                     onChange={(e)=>{checkIfDateIsCorrect(e)}}
                     required
-                    min={minDate}/>
+                    min={minDate}
+                    data-testid='departureDate-test'/>
             
             <label htmlFor="returnDate">Return Date: </label>
             <input type="date"
                     name="returnDate"
                     id="returnDate"
                     onChange={()=>console.log("Return date changed")}
-                    min={minReturnDate}    />
+                    min={minReturnDate}
+                    data-testid='returnDate-test'    />
             
             <label htmlFor="adults">Number of adults:</label>
-            <input type="number" name="adults" id="adults" min={1} required/>
+            <input type="number" name="adults" id="adults" min={1}
+            data-testid='adults-test' required/>
 
             <label htmlFor="currency">Currency</label>
-            <select name="currency" id="currency">
+            <select name="currency" id="currency" data-testid='currency-test'>
                 <option value="USD">USD</option>
                 <option value="MXN">MXN</option>
                 <option value="EUR">EUR</option>
