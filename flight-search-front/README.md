@@ -1,5 +1,11 @@
 # Flight Search Frontend
-
+## Requirements
+The following tools are required to be installed to run this project:
+- Node v20.16
+- npm v10.8
+- Colima
+- Docker (CLI) v27.1.2
+- Docker Compose 
 ## Enviroment variables
 This project uses an environment variable called "VITE_REACT_APP_API_AIRPORTS_URL" for the backend API url, so in order for the project to work correctly please make sure to create a new ".env" file in this directory, as shown here:
 
@@ -11,10 +17,13 @@ It should contain a single variable called "VITE_REACT_APP_API_AIRPORTS_URL" wit
 ## Docker
 Once you have environment variable for the API URL is setup, you may now run the project as Docker container.
 
-To create an image build, please run the following command:
+1. Start Colima:
+> colima start
+
+2.  Create an image build:
 > docker build . -t "flight-search-front"
 
-And to run it using Docker compose, run the following command:
+3. run it using Docker compose:
 > docker compose up
 
 ### Changing Dockerfile
@@ -30,4 +39,9 @@ To run the project:
 To run the tests:
 > npm run test
 
-components
+## Installing Docker in MacOs
+
+This is beyond the purpose of this README.md, but here are some helpful resources:
+- https://dev.to/elliotalexander/how-to-use-docker-without-docker-desktop-on-macos-217m
+- https://dev.to/mochafreddo/running-docker-on-macos-without-docker-desktop-64o
+- https://stackoverflow.com/questions/60992814/docker-compose-command-not-available-for-mac/77142331#77142331
