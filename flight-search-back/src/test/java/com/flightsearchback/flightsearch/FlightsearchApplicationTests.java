@@ -34,7 +34,7 @@ class FlightsearchApplicationTests {
 	@Test
 	public void testAirportSearch() throws Exception{
 		List<Airport> airportsResponse = flightsearchService.findAirportsByKeyword("MUC");
-		assertThat(airportsResponse.get(1)).isNotNull();
+		assertThat(airportsResponse.get(0)).isNotNull();
 	}
 
 	@Test
@@ -51,7 +51,7 @@ class FlightsearchApplicationTests {
 
 
 		List<TripResult> tripResults = flightsearchService.findFlights(allParams);
-		assertThat(tripResults.get(1)).isNotNull();
+		assertThat(tripResults.get(0)).isNotNull();
 	}
 
 }

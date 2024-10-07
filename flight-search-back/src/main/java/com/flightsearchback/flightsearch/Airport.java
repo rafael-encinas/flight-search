@@ -50,6 +50,11 @@ public class Airport {
         this.address = address;
     }
 
+    @Override
+    public String toString() {
+        return "Airport [type=" + type + ", name=" + name + ", iataCode=" + iataCode + ", address=" + address + "]";
+    }
+
     
     
 }

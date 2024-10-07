@@ -1,5 +1,7 @@
 package com.flightsearchback.flightsearch;
 
+import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -51,6 +53,11 @@ public class FareDetailBySegment {
     }
     public void setAmenities(Amenity[] amenities) {
         this.amenities = amenities;
+    }
+    @Override
+    public String toString() {
+        return "FareDetailBySegment [segmentId=" + segmentId + ", cabin=" + cabin + ", brandedFare=" + brandedFare
+                + ", classLevel=" + classLevel + ", amenities=" + Arrays.toString(amenities) + "]";
     }
     
 }
