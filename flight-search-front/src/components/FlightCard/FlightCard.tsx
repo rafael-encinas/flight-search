@@ -18,7 +18,10 @@ const Itinerary = (props: ItineraryProps) => {
     let departureAriportIata = props.flight.segments[0].departure.iataCode;
     let arrivalAirportIata = props.flight.segments[howManySegments-1].arrival.iataCode;
     let carrierCode = props.flight.segments[0].carrierCode;
-    let operatingAirlineCode = props.flight.segments[0].operating.carrierCode;
+    let operatingAirlineCode = null;
+    if(props.flight.segments[0].operating != null){
+        operatingAirlineCode = props.flight.segments[0].operating.carrierCode;
+    }
     let stops = howManySegments - 1;
     let stopsText= "";
     let layoverTime = 0;
@@ -27,7 +30,10 @@ const Itinerary = (props: ItineraryProps) => {
     let hIndex = durationString.indexOf("H");
     let mIndex = durationString.indexOf("M");
     let durationHours = durationString.slice(2, hIndex);
-    let durationMinutes = durationString.slice(hIndex+1, mIndex)
+    let durationMinutes = 0;
+    if(parseInt(durationString.slice(hIndex+1, mIndex))>0){
+        durationMinutes = durationString.slice(hIndex+1, mIndex);
+    }
     
     if(stops >= 1){
         stopsText = `${stops} stop`;
@@ -39,7 +45,7 @@ const Itinerary = (props: ItineraryProps) => {
             layoverTime = secondDepartureDate.diff(firstArrivalDate, 'minute')
             let layoverHours = Math.floor(layoverTime/60);
             let layoverMinutes = layoverTime - (layoverHours*60)
-            mappedStops.push(true?<div>{layoverHours}h {layoverMinutes}m in xxx ({props.flight.segments[i].arrival.iataCode})</div>:null)
+            mappedStops.push(true?<div>{layoverHours}h {layoverMinutes}m in {props.flight.segments[i].arrival.cityName} ({props.flight.segments[i].arrival.iataCode})</div>:null)
         }
     }
 
@@ -65,7 +71,7 @@ const Itinerary = (props: ItineraryProps) => {
                 {mappedStops.length>0?mappedStops:null}
             </div>
             <div className='airlineInfo'>Carrier: {props.flight.segments[0].carrierDescription} ({carrierCode})</div>
-            {operatingAirlineCode!=carrierCode?<div className='firstCol'>Operating: {props.flight.segments[0].operating.carrierDescription} ({operatingAirlineCode})</div>:null}
+            {operatingAirlineCode!=null && operatingAirlineCode!=carrierCode?<div className='firstCol'>Operating: {props.flight.segments[0].operating.carrierDescription} ({operatingAirlineCode})</div>:null}
             <div className='firstCol'>Flight: {props.flight.segments[0].number}</div>
             <div className='bothCols'>Click for {props.expandDetails?"less":"more"} details</div>
         </div>
@@ -81,7 +87,7 @@ export const FlightCard = (props: FlightCardProps) =>{
     setExpandDetails(!expandDetails)
 }
 
-    let mappedItineraries = props.data.itineraries.map((element:object, index: any) => <Itinerary expandDetails={expandDetails} flight={element} key={props.data.id + index} />)
+    let mappedItineraries = props.data.itineraries.map((element:object, index: any) => <Itinerary expandDetails={expandDetails} flight={element} key={props.data.id + "-itinerary-" + index} />)
 
 
     return(
@@ -102,7 +108,7 @@ export const FlightCard = (props: FlightCardProps) =>{
                 </div>
             </div>
             
-            <FlightDetails expandDetails={expandDetails} data={props.data} key={"flightDetailsKey:"+props.data.id}/>
+            <FlightDetails expandDetails={expandDetails} data={props.data} key={props.data.id+"flightDetailsKey:"}/>
         </div>
     )
 }

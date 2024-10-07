@@ -47,7 +47,7 @@ export const AirportInput = (props: AirportInputProps) =>{
             <datalist id={props.type+'airports'}
             >
                 {airportData.length>0?
-                airportData.map((airport:any, index)=> <Option iataCode={airport.iataCode} cityName={airport.address.cityName} key={index}/> )
+                airportData.map((airport:any, index)=> <Option iataCode={airport.iataCode} cityName={airport.address.cityName} airport={airport.name} key={index+"-option"}/> )
                 :
                 <Option airport='Please type an airport code'/>
                 }

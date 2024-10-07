@@ -8,8 +8,11 @@ type DetailsCardsProps = {
 
 export const DetailsCard = (props: DetailsCardsProps) => {
     let carrierCode: string = props.segment.carrierCode;
-    let operatingCarrierCode: string = props.segment.operating.carrierCode;
-    let equalsCheck: boolean = carrierCode === operatingCarrierCode;
+    let operatingCarrierCode = null;
+    if(props.segment.operating!=null){
+        operatingCarrierCode = props.segment.operating.carrierCode;
+    }
+    //let equalsCheck: boolean = carrierCode === operatingCarrierCode;
     let fareDetailsBySegment = props.fareDetailsBySegment;
 
 
@@ -24,8 +27,8 @@ export const DetailsCard = (props: DetailsCardsProps) => {
     if(fareDetailsBySegment.amenities!=null){
         mappedAmenities = fareDetailsBySegment.amenities.map((element:any, index:any)=> <>
         <div className='amenity'>- {element.description}</div>
-        <div className='amenity'>- {element.chargeable?"Chargeable":"Not chargeable"}</div>
-
+        <div className='amenity'>- {element.isChargeable?"Chargeable":"Not chargeable"}</div>
+        <div>----------------------------</div>
     </>)
     }
 
@@ -37,8 +40,8 @@ export const DetailsCard = (props: DetailsCardsProps) => {
                 <h4>Segment { props.segment.id } details</h4>
                 <div>{formattedDepartureTime} - {formattedArrivalTime}</div>
                 <div>{props.segment.departure.cityName} ({props.segment.departure.iataCode}) - {props.segment.arrival.cityName} ({props.segment.arrival.iataCode})</div>
-                <div>Carrier: {props.segment.operating.carrierDescription} ({props.segment.carrierCode})</div>
-                {operatingCarrierCode!=carrierCode?<div className='firstCol'>Operating: {props.segment.operating.carrierDescription} ({operatingCarrierCode})</div>:null}
+                <div>Carrier: {props.segment.carrierDescription} ({props.segment.carrierCode})</div>
+                {operatingCarrierCode!=null && operatingCarrierCode!=carrierCode?<div className='firstCol'>Operating: {props.segment.operating.carrierDescription} ({operatingCarrierCode})</div>:null}
                 <div>Flight number: {props.segment.number}</div>
                 <div>Aircraft: {props.segment.aircraft.description}</div>
 
@@ -49,7 +52,7 @@ export const DetailsCard = (props: DetailsCardsProps) => {
                 <div>Class: {fareDetailsBySegment.class}</div>
                 <div className='amenitiesContainer'>
                     <h4 id='amenitiesTitle'>Amenities:</h4>
-                    {mappedAmenities}
+                    {fareDetailsBySegment.amenities!=null?mappedAmenities:<div>- No amenities found</div>}
                 </div>
             </div>
         </div>

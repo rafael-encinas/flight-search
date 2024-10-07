@@ -7,6 +7,6 @@ type OptionProps = {
 
 export const Option = (props: OptionProps) =>{
     return(
-        <option value={props.iataCode}>{props.iataCode + " - " + props.cityName}</option>
+        <option value={props.iataCode}>{props.iataCode + " - " + props.airport + " ("+ props.cityName + ")"}</option>
     )
 }

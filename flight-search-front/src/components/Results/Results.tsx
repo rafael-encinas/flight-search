@@ -6,8 +6,7 @@ import { FlightCard } from '../FlightCard/FlightCard';
 type ResultsProps = {
   data: any,
   setSortedData: any,
-  updatePriceSorting:any,
-  updateDurationSorting:any
+  mixedSorting:any
 }
 
 export const Results = (props: ResultsProps)=>{
@@ -15,40 +14,33 @@ export const Results = (props: ResultsProps)=>{
     const [sortByDuration, setSortByDuration] = useState(0);
 
     function returnToSearch(){
-        console.log("Clicked on return to search!");
         props.setSortedData(null);
     }
 
     function handlePriceSortingClick(){
         //let tempSorting = sortByPrice;
         if(sortByPrice == 2){
-            console.log("Unsorted");
             setSortByPrice(0);
-            props.updatePriceSorting(0);
+            props.mixedSorting(0, sortByDuration, 0);
         } else if(sortByPrice == 0){
-            console.log("Asc");
             setSortByPrice(1);
-            props.updatePriceSorting(1);
+            props.mixedSorting(1, sortByDuration, 0);
         } else {
-            console.log("Desc");
             setSortByPrice(2);
-            props.updatePriceSorting(2);
+            props.mixedSorting(2, sortByDuration, 0);
         }
     }
 
     function handleDurationSortingClick(){
         if(sortByDuration == 2){
-            console.log("Unsorted");
             setSortByDuration(0);
-            props.updateDurationSorting(0);
+            props.mixedSorting(sortByPrice, 0, 1);
         } else if(sortByDuration == 0){
-            console.log("Asc");
             setSortByDuration(1);
-            props.updateDurationSorting(1);
+            props.mixedSorting(sortByPrice, 1, 1);
         } else {
-            console.log("Desc");
             setSortByDuration(2);
-            props.updateDurationSorting(2);
+            props.mixedSorting(sortByPrice, 2, 1);
         }
     }
 
@@ -64,7 +56,11 @@ export const Results = (props: ResultsProps)=>{
                     <button onClick={handlePriceSortingClick}>Sort by price: {sortByPrice%3 == 0?"Unsorted":sortByPrice%3==1?"Ascending":"Descending"}</button>
                 </div>
             </div>
-            {props.data.map((element:any) => <FlightCard data={element} key={element.id} />)}
+            {props.data.length>0?
+            props.data.map((element:any) => <FlightCard data={element} key={element.id+"-flight-Cards"} />)
+            :
+            <div>Couldn't find any offers for the options you set.<br />Please click on the "Return to search" button and try something different.</div>
+            }
         </div>
     )
 }

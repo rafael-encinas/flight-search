@@ -17,10 +17,14 @@
 
 .priceBreakdown{
     border: 1px solid var(--white-color);
+    min-width: 200px;
     width: fit-content;
     height: fit-content;
     text-align: start;
     padding: 15px;
+    position: sticky;
+    top: 10px;
+
 }
 
 .perTravelerContainer{
@@ -43,5 +47,11 @@
     display: flex;
     gap: 25px;
     flex-direction: row;
+}
+
+.inOutFlight{
+    font-size: larger;
+    font-weight: bold;
+    text-align: start;
 }
 

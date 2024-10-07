@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 
 type SearchContainerProps = {
     onGetResultFlights: any,
+    setLoading: any
 }
 
 export const  SearchContainer = (props: SearchContainerProps)=>{
@@ -27,6 +28,8 @@ export const  SearchContainer = (props: SearchContainerProps)=>{
         let adults = event.target.elements.adults.value;
         let currencyCode = event.target.elements.currency.value;
         let nonStop = event.target.elements.stops.checked;
+
+        props.setLoading(true);
         
         props.onGetResultFlights(originLocationCode, destinationLocationCode, departureDate, returnDate, adults, currencyCode, nonStop);
     }

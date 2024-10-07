@@ -23,14 +23,18 @@ export const FlightDetails = (props: FlightDetailsProps) =>{
     }
 
     //Change to map itineraries and then map segments
-    let listOfSegments = props.data.itineraries.map((element:any, indexTop:any)=> 
+    let listOfSegments = props.data.itineraries.map((element:any, indexItineraries:any)=> 
                                     element.segments.map((element:object, index:any)=> 
                                         <>
-                                            {index>1?<div>Layover time index: {getLayoverTime(index, indexTop)}</div>:null}
-                                            <DetailsCard segment={element} fareDetailsBySegment={fareDetailsBySegment[index]}  key={element.id} />
+                                            {indexItineraries==0 && index==0?<div className='inOutFlight'>Outbound flight</div>
+                                            :
+                                            indexItineraries == 1 && index == 0? <div className='inOutFlight'>Inbound flight</div>:null
+                                            }
+                                            {index>=1?<div>Layover time: {getLayoverTime(index, indexItineraries)}</div>:null}
+                                            <DetailsCard segment={element} fareDetailsBySegment={fareDetailsBySegment[index]}  key={element.id+"-detailsCard"} />
                                         </>))
 
-    let mappedFees = props.data.price.fees.map((fee:any, index:any)=><div>- {fee.type}: {fee.amount} {props.data.price.currency}</div>);
+    let mappedFees = props.data.price.fees.map((fee:any, index:any)=><div>- {fee.type}: $ {fee.amount} {props.data.price.currency}</div>);
 
     return(
         <div className={'flightDetailsContainer' + (props.expandDetails?" expandCard":"")}>
@@ -43,17 +47,17 @@ export const FlightDetails = (props: FlightDetailsProps) =>{
 
 
                 <div className='priceBreakdown'>
-                    This is the PriceBreakdown component
+                    Price breakdown:
                     <div>Base: {props.data.price.base} {props.data.price.currency}</div>
                     <div className='feesContainer'>
                         <div>Fees:</div>
                         {mappedFees}
                     </div>
-                    <div>Total: {props.data.price.grandTotal} {props.data.price.currency}</div>
+                    <div>Total: $ {props.data.price.grandTotal} {props.data.price.currency}</div>
                     <div className='perTravelerContainer'>
                         <div>Per traveler</div>
-                        <div>Base: {props.data.travelerPricings[0].price.base} {props.data.travelerPricings[0].price.currency}</div>
-                        <div>Total: {props.data.travelerPricings[0].price.total} {props.data.travelerPricings[0].price.currency}</div>
+                        <div>Base: $ {props.data.travelerPricings[0].price.base} {props.data.travelerPricings[0].price.currency}</div>
+                        <div>Total: $ {props.data.travelerPricings[0].price.total} {props.data.travelerPricings[0].price.currency}</div>
                     </div>
                 </div>
             </div>

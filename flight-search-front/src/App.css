@@ -23,3 +23,8 @@
 button:hover{
   cursor: pointer;
 }
+
+.loadingMessage{
+  position: absolute;
+  bottom: 340px;
+}
